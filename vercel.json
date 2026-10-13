@@ -1,0 +1,4 @@
+{
+  "buildCommand": "python3 build_static.py",
+  "outputDirectory": "docs"
+}

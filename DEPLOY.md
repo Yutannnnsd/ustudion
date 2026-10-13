@@ -1,4 +1,4 @@
-# GitHub Pages + お名前.com 公開手順
+# Vercel + お名前.com 公開手順
 
 ## 1. GitHub に push
 
@@ -9,44 +9,38 @@ git remote add origin https://github.com/YOUR_USER/YOUR_REPO.git
 git push -u origin main
 ```
 
-## 2. GitHub Pages を有効化
+## 2. Vercel に接続
 
-GitHub のリポジトリで:
+Vercel で新規プロジェクトを作成し、GitHub リポジトリを import します。
 
-1. Settings
-2. Pages
-3. Source: Deploy from a branch
-4. Branch: `main`
-5. Folder: `/docs`
-6. Save
+- Framework Preset: Other
+- Build Command: `python3 build_static.py`
+- Output Directory: `docs`
+
+この2つは `vercel.json` にも入れてあるため、Vercel 側で自動反映されます。
 
 ## 3. 独自ドメインを使う場合
 
-ドメイン名が決まったら、以下のどちらかで `docs/CNAME` を作ります。
+Vercel の Project Settings > Domains でドメインを追加します。
+Vercel が表示する DNS レコードを、お名前.com の DNS 設定に追加します。
 
-```bash
-CUSTOM_DOMAIN=example.com python3 build_static.py
-git add docs/CNAME docs
-git commit -m "Add custom domain"
-git push
-```
-
-または GitHub の Pages 設定画面の Custom domain に入力します。
-
-## 4. お名前.com の DNS
+代表的な設定は以下です。
 
 ルートドメイン `example.com` を使う場合:
 
-- A レコードを4つ追加
-  - `185.199.108.153`
-  - `185.199.109.153`
-  - `185.199.110.153`
-  - `185.199.111.153`
+- A レコード
+  - ホスト名: `@`
+  - VALUE: `76.76.21.21`
 
 `www.example.com` を使う場合:
 
 - CNAME レコードを追加
   - ホスト名: `www`
-  - VALUE: `YOUR_USER.github.io`
+  - VALUE: `cname.vercel-dns.com`
 
-DNS反映後、GitHub Pages の Enforce HTTPS を有効化します。
+DNS反映後、Vercel の Domains 画面で Valid になるのを確認します。
+
+## 4. 更新方法
+
+サイトを変更したら、commit して GitHub に push します。
+Vercel は push を検知して自動で再デプロイします。
