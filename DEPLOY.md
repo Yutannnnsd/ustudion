@@ -21,22 +21,27 @@ Vercel で新規プロジェクトを作成し、GitHub リポジトリを impor
 
 ## 3. 独自ドメインを使う場合
 
-Vercel の Project Settings > Domains でドメインを追加します。
+Vercel の Project Settings > Domains で `ustudion.com` を追加します。
 Vercel が表示する DNS レコードを、お名前.com の DNS 設定に追加します。
 
-代表的な設定は以下です。
+まずは以下の2つを Vercel に追加します。
 
-ルートドメイン `example.com` を使う場合:
+- `ustudion.com`
+- `www.ustudion.com`
+
+代表的なDNS設定は以下です。Vercel の画面に別の値が表示された場合は、画面の表示を優先します。
+
+ルートドメイン `ustudion.com`:
 
 - A レコード
   - ホスト名: `@`
   - VALUE: `76.76.21.21`
 
-`www.example.com` を使う場合:
+サブドメイン `www.ustudion.com`:
 
 - CNAME レコードを追加
   - ホスト名: `www`
-  - VALUE: `cname.vercel-dns.com`
+  - VALUE: Vercel の Domains 画面に表示された値
 
 DNS反映後、Vercel の Domains 画面で Valid になるのを確認します。
 
