@@ -37,8 +37,9 @@ CATEGORIES = {
     },
 }
 
-GLOBAL_HEADER = """    <header class="site-header">
-      <a class="logo" href="/" aria-label="Studio U Yuta top page">Studio U</a>
+def global_header(home_href):
+    return f"""    <header class="site-header">
+      <a class="logo" href="{home_href}" aria-label="Studio U Yuta top page">Studio U</a>
     </header>
 """
 
@@ -246,7 +247,7 @@ def render_work_entry(category_title, work, index):
     heading_tag = "h1" if index == 0 else "h2"
     title = work["title"]
     src = asset_url(work["src"])
-    href = f"/{quote(work['src'].parts[0])}/{quote(work['slug'])}.html"
+    href = f"{quote(work['src'].parts[0])}/{quote(work['slug'])}.html"
 
     return f"""
       <article class="work-entry">
@@ -296,11 +297,11 @@ def render_category_page(path):
     <link rel="stylesheet" href="assets/styles.css?v={VERSION}" />
   </head>
   <body>
-{GLOBAL_HEADER}
+{global_header("./")}
     <main class="works-page" aria-label="{escape(title)}">
 {entries}
     </main>
-    <script src="/assets/main.js?v={VERSION}"></script>
+    <script src="assets/main.js?v={VERSION}"></script>
   </body>
 </html>
 """
@@ -325,10 +326,11 @@ def render_detail_page(folder, slug):
 
     category_title = category["title"]
     title = work["title"]
+    category_href = f"../{category_path.lstrip('/')}"
     image_slides = "\n".join(
         f"""
           <figure class="detail-slide">
-            <img {image_attributes(image, "detail-photo")} src="/{asset_url(image)}" alt="{escape(title)}" />
+            <img {image_attributes(image, "detail-photo")} src="../{asset_url(image)}" alt="{escape(title)}" />
           </figure>
         """
         for image in work["images"]
@@ -340,13 +342,13 @@ def render_detail_page(folder, slug):
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{escape(title)} | {escape(category_title)} | Studio U Yuta</title>
     <meta name="description" content="{escape(title)} by Studio U Yuta." />
-    <link rel="stylesheet" href="/assets/styles.css?v={VERSION}" />
+    <link rel="stylesheet" href="../assets/styles.css?v={VERSION}" />
   </head>
   <body>
-{GLOBAL_HEADER}
+{global_header("../")}
     <main class="detail-page" aria-label="{escape(title)}">
       <section class="detail-stage">
-        <a class="detail-category" href="{category_path}">{escape(category_title)}</a>
+        <a class="detail-category" href="{category_href}">{escape(category_title)}</a>
 
         <div class="detail-slider" data-slider>
           <div class="detail-track" data-slider-track tabindex="0" aria-label="{escape(title)} images">
@@ -357,7 +359,7 @@ def render_detail_page(folder, slug):
         <h1 class="detail-title">{escape(title)}</h1>
       </section>
     </main>
-    <script src="/assets/main.js?v={VERSION}"></script>
+    <script src="../assets/main.js?v={VERSION}"></script>
   </body>
 </html>
 """
